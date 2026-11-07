@@ -287,7 +287,9 @@ body.nav-open { overflow: hidden; }
 .hero-shape--b { width: clamp(180px, 24vw, 340px); bottom: -12%; left: -6%; opacity: .6; }
 .hero-shape--b path { fill: var(--sage); }
 
-.hero-content { max-width: 900px; }
+.hero-content { max-width: 900px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.hero-content > * { margin-inline: auto; }
+.hero .btn-group .btn { min-width: 270px; }
 .hero .eyebrow { font-size: .6875rem; letter-spacing: .22em; flex-wrap: wrap; }
 .hero-title {
   font-size: clamp(2.35rem, 1.3rem + 4.6vw, 4.6rem);
@@ -297,8 +299,8 @@ body.nav-open { overflow: hidden; }
 .hero-title-a { color: var(--slate); }
 .hero-title-b { color: var(--taupe); font-style: italic; font-weight: 500; }  /* titolo bicolore: Deep Slate + Warm Taupe */
 .hero-lead {
-  max-width: 640px; margin: 28px auto 40px;
-  font-size: clamp(1.0625rem, 1rem + .3vw, 1.1875rem); line-height: 1.7; color: var(--slate); text-wrap: pretty;
+  max-width: 600px; margin: 28px auto 40px;
+  font-size: clamp(1.0625rem, 1rem + .3vw, 1.1875rem); line-height: 1.7; color: var(--slate); text-wrap: balance;
 }
 @media (max-width: 380px) { .hero .eyebrow::before, .hero .eyebrow::after { display: none; } }
 
@@ -528,17 +530,22 @@ html:not(.js) .step-title, html:not(.js) .step p { opacity: 1; transform: none; 
 /* ==========================================================================
    9. FAQ — accordion
    ========================================================================== */
-.accordion { border-top: 1px solid var(--line); }
-.acc-item { border-bottom: 1px solid var(--line); }
+/* tendine su Powder Blue, per staccarle dallo sfondo bianco della sezione */
+.accordion { display: grid; gap: 12px; }
+.acc-item {
+  background: var(--blue); border: 1px solid rgba(53, 67, 74, .06); border-radius: 14px;
+  transition: box-shadow var(--dur) var(--ease);
+}
+.acc-item:has(.acc-trigger[aria-expanded="true"]) { box-shadow: var(--shadow); }
 .acc-heading { font-family: var(--font-sans); font-size: inherit; }
 .acc-trigger {
   display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%;
-  padding: 24px 4px; min-height: 64px;
+  padding: 22px 24px; min-height: 64px; border-radius: 14px;
   background: none; border: 0; cursor: pointer; text-align: left;
   font-family: var(--font-sans); font-size: clamp(1rem, .96rem + .25vw, 1.125rem); font-weight: 600; color: var(--slate); line-height: 1.45;
 }
 .acc-icon {
-  position: relative; flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; background: var(--sage);
+  position: relative; flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%; background: var(--white);
   transition: background-color var(--dur) var(--ease);
 }
 .acc-icon::before, .acc-icon::after {
@@ -547,13 +554,16 @@ html:not(.js) .step-title, html:not(.js) .step p { opacity: 1; transform: none; 
 }
 .acc-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
 .acc-trigger[aria-expanded="true"] .acc-icon::after { transform: translate(-50%, -50%) rotate(0deg); }
-.acc-trigger:hover .acc-icon { background: var(--blue); }
+.acc-trigger:hover .acc-icon, .acc-trigger[aria-expanded="true"] .acc-icon { background: var(--sage); }
 .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 400ms var(--ease); }
 .acc-panel > .acc-panel-inner { overflow: hidden; }
 .acc-panel.is-open { grid-template-rows: 1fr; }
-.acc-panel-inner p { padding: 0 64px 26px 4px; color: var(--text-soft); margin: 0; }
+.acc-panel-inner p { padding: 0 80px 24px 24px; color: var(--slate); margin: 0; }
 html:not(.js) .acc-panel { grid-template-rows: 1fr; }
-@media (max-width: 600px) { .acc-panel-inner p { padding-right: 4px; } }
+@media (max-width: 600px) {
+  .acc-trigger { padding: 18px 18px; }
+  .acc-panel-inner p { padding: 0 18px 20px; }
+}
 
 /* ==========================================================================
    10. CONTATTI — modulo centrale compatto
@@ -630,4 +640,12 @@ html:not(.js) .acc-panel { grid-template-rows: 1fr; }
   .js .reveal { opacity: 1; transform: none; }
   .card:hover { transform: none; }
   .card:hover .card-media img { transform: none; }
+}
+
+/* Hero: microtitolo su due righe pulite in mobile */
+.hero-eyebrow { gap: 10px; }
+.hero-eyebrow .sep { margin-inline: 2px; }
+@media (max-width: 599.98px) {
+  .hero .hero-eyebrow { flex-direction: column; gap: 4px; line-height: 1.6; }
+  .hero .hero-eyebrow .sep, .hero .hero-eyebrow::before, .hero .hero-eyebrow::after { display: none; }
 }
